@@ -5,6 +5,7 @@ import { InitOptions } from "payload/config"
 
 dotenv.config({
   path: path.resolve(__dirname, "../.env")
+  //for test
 })
 // to get our client we want to make use of caching
 // get cashed version of our cms
