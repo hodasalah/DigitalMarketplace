@@ -29,7 +29,9 @@ export default buildConfig({
       titleSuffix: "- DigitalMarketplace",
       favicon: "/favicon.ico",
       ogImage: "/thumbnail.jpg"
-    }
+    },
+    //css: path.resolve(__dirname, 'src/app/payload.css'),
+
   },
   rateLimit: {
     max: 2000,

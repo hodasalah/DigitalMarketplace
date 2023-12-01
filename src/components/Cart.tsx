@@ -91,7 +91,7 @@ const Cart = () => {
 									className: 'text-sm text-muted-foreground',
 								})}
 							>
-                Add Items to your cart
+								Add Items to your cart
 							</Link>
 						</SheetTrigger>
 					</div>
