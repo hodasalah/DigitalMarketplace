@@ -1,5 +1,5 @@
 import Navbar from '@/components/Navbar';
-import Providers from '@/components/Providers';
+import Providers from '@/components/trpc/Providers';
 import {cn} from '@/lib/utils';
 import type {Metadata} from 'next';
 import {Inter} from 'next/font/google';

@@ -7,6 +7,7 @@ import {
 	AuthCredentialsValidator,
 	TAuthCredentialsValidator,
 } from '@/lib/validators/account-credentials-validator';
+import { trpc } from '@/trpc/client';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {ArrowRight} from 'lucide-react';
 import Image from 'next/image';
@@ -21,6 +22,10 @@ const SignUp = () => {
 	} = useForm<TAuthCredentialsValidator>({
 		resolver: zodResolver(AuthCredentialsValidator),
 	});
+
+const {data}=trpc.anyApiRoute.useQuery()
+console.log(data)
+
 	const onSubmit: SubmitHandler<TAuthCredentialsValidator> = ({
 		email,
 		password,
@@ -32,14 +37,14 @@ const SignUp = () => {
 		<div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0'>
 			<div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px]'>
 				<div className='flex flex-col items-center space-y-2 text'>
-					<div className="relative h-40 w-[14rem]">
-					<Image
-						src={'/logo.svg'}
-						fill
-						alt='logo'
-						className='object-cover object-left-bottom'
-					/>
-</div>
+					<div className='relative h-40 w-[14rem]'>
+						<Image
+							src={'/logo.svg'}
+							fill
+							alt='logo'
+							className='object-cover object-left-bottom'
+						/>
+					</div>
 					<h1 className='text-2xl font-bold'>Create An Account</h1>
 					<Link
 						href='/sign-in'
