@@ -1,49 +1,68 @@
-import dotenv from "dotenv"
-import path from "path"
-import payload from 'payload'
-import type { InitOptions } from "payload/config"
+import dotenv from "dotenv";
+import nodemailer from "nodemailer";
+import path from "path";
+import payload, { Payload } from 'payload';
+import type { InitOptions } from "payload/config";
 
+// Load environment variables from .env file
 dotenv.config({
-  path: path.resolve(__dirname, "../.env")
-  //for test
-})
-// to get our client we want to make use of caching
-// get cashed version of our cms
-let cached = (global as any).payload
-if (!cached) {
-  cached = (global as any).payload = {
+  path: path.resolve(__dirname, "../.env"),
+});
+
+// Create a nodemailer transporter for sending emails
+const transporter = nodemailer.createTransport({
+  host: "smtp.resend.com",
+  secure: true,
+  port: 465,
+  auth: {
+    user: "resend",
+    pass: process.env.RESEND_API_KEY,
+  },
+});
+
+// Initialize a global cache for the Payload client
+let cachedPayload = (global as any).payload
+
+// If the cache is not yet initialized, initialize it
+if (!cachedPayload) {
+  cachedPayload = (global as any).payload = {
     client: null,
-    promise: null
-  }
+    promise: null,
+  };
 }
+
 interface Args {
-  initOptions?: Partial<InitOptions>
+  initOptions?: Partial<InitOptions>;
 }
-export const getPayloadClient = async ({ initOptions }: Args = {}) => {
+
+// Function to get the Payload client
+export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payload> => {
   if (!process.env.PAYLOAD_SECRET) {
-    throw new Error("Payload secret is missing!")
+    throw new Error("Payload secret is missing!");
   }
 
-  if (cached.client) {
-    return cached.client
+  if (cachedPayload.client) {
+    return cachedPayload.client;
   }
 
-  if (!cached.promise) {
-    cached.promise = payload.init({
+  if (!cachedPayload.promise) {
+    cachedPayload.promise = payload.init({
+      email: {
+        transport: transporter,
+        fromAddress: "onboarding@resend.dev",
+        fromName: "Hoda Salah At Digital Marketplace",
+      },
       secret: process.env.PAYLOAD_SECRET,
-      local: initOptions?.express ? false : true,
-      ...(initOptions || {})
-
-    })
+      local: (initOptions && initOptions?.express) ? false : true,
+      ...(initOptions || {}),
+    });
   }
 
   try {
-    cached.client = await cached.promise
+    cachedPayload.client = await cachedPayload.promise;
   } catch (error: any) {
-    cached.promise = null;
-    console.log(error)
-
+    cachedPayload.promise = null;
   }
-  return cached.client
 
+  return cachedPayload.client
 }

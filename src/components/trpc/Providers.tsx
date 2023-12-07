@@ -21,7 +21,6 @@ const Providers = ({children}: PropsWithChildren) => {
 			],
 		}),
 	);
-	//const anyApiRoute=trpc.anyApiRoute.useQuery().data
 	return (
 		<trpc.Provider client={trpcClient} queryClient={queryClient}>
 			<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
