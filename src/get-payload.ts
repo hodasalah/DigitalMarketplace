@@ -50,11 +50,12 @@ export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payl
       email: {
         transport: transporter,
         fromAddress: "onboarding@resend.dev",
-        fromName: "Hoda Salah At Digital Marketplace",
+        fromName: "Hoda Salah",
       },
       secret: process.env.PAYLOAD_SECRET,
       local: (initOptions && initOptions?.express) ? false : true,
       ...(initOptions || {}),
+
     });
   }
 

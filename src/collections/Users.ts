@@ -6,9 +6,7 @@ export const Users: CollectionConfig = {
     verify: {
       // from resend.com >docs >serverless>stmp>nodemailer
       generateEmailHTML: ({ token }) => {
-        console.log(token)
-        return `<h3>Hello Please verify Your Email Address</h3>
-        <button>verify your email</button>`
+        return `<a href= ${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}>Verify Account</a>`
       }
     }
   },

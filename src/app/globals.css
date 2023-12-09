@@ -89,3 +89,12 @@
 .st6 {
   fill: url(#SVGID_1_);
 }
+
+
+/* reduce padding in small screens */
+@media screen and (max-width:320px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
