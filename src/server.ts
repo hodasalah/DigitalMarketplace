@@ -5,6 +5,7 @@ import path from 'path';
 import { getPayloadClient } from './get-payload';
 import { nextApp, nextHandler } from './next-utils';
 import { appRouter } from './trpc';
+import { inferAsyncReturnType } from '@trpc/server';
 //initialise our app with express
 const app = express();
 // define our server port
@@ -16,6 +17,8 @@ const PORT = Number(process.env.PORT) || 3000;
 const createContext = ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({
   req, res
 })
+// create context type
+export type  ExpressContext=inferAsyncReturnType<typeof createContext>
 const start = async (): Promise<void> => {
   const payload = await getPayloadClient({
     initOptions: {
@@ -23,7 +26,8 @@ const start = async (): Promise<void> => {
       onInit: async (cms) => {
         cms.logger.info(`Admin URL ${cms.getAdminURL()}`)
       }
-    }
+    },
+
   })
   app.use("/api/trpc", trpcExpress.createExpressMiddleware({
     router: appRouter,

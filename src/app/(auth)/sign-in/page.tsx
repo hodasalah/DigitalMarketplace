@@ -12,37 +12,49 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {ArrowRight} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {toast} from 'sonner';
-import {ZodError} from 'zod';
 
-const SignUp = () => {
+const SignIn = () => {
+	const searchParams = useSearchParams();
 	const router = useRouter();
+	const isSeller = searchParams.get('as') === 'seller';
+	const continueAsSeller = () => {
+		router.push('?as=seller');
+	};
+	const continueAsBuyer = () => {
+		router.replace('/sign-in', undefined);
+	};
+
+	const origin = searchParams.get('origin');
 	const {
 		register,
 		handleSubmit,
 		formState: {errors, isDirty, isValid},
 	} = useForm<TAuthCredentialsValidator>({
 		resolver: zodResolver(AuthCredentialsValidator),
-		mode: "all",
+		mode: 'all',
 	});
 
-	const {mutate, isLoading} = trpc.auth.createPayloadUser.useMutation({
-		onError: (err) => {
-			if (err.data?.code === 'CONFLICT') {
-				toast.error('This Email is already in use . Sign in instead?');
+	const {mutate, isLoading} = trpc.auth.signIn.useMutation({
+		onSuccess: () => {
+			toast.success('signed in successfully');
+			router.refresh();
+			if (origin) {
+				router.push(`/${origin}`);
 				return;
 			}
-			if (err instanceof ZodError) {
-				toast.error(err.issues[0].message);
+			if (isSeller) {
+				router.push('/sell');
 				return;
 			}
-			toast.error('Something went wrong . Please try again');
+			router.push('/');
 		},
-		onSuccess: ({sentToEmail}) => {
-			toast.success(`Verification Email Sent to Email ${sentToEmail}`);
-			router.push(`/verify-email?to=${sentToEmail}`);
+		onError: (err) => {
+			if (err.data?.code === 'UNAUTHORIZED') {
+				toast.error('Invalid Email or Password');
+			}
 		},
 	});
 
@@ -66,15 +78,17 @@ const SignUp = () => {
 							className='object-cover object-left-bottom'
 						/>
 					</div>
-					<h1 className='text-2xl font-bold'>Create An Account</h1>
+					<h1 className='text-2xl font-bold'>
+						Sign in to your {isSeller ? 'seller' : ''} account
+					</h1>
 					<Link
-						href='/sign-in'
+						href='/sign-up'
 						className={buttonVariants({
 							variant: 'link',
 							className: 'text-muted-foreground gap-1.5',
 						})}
 					>
-						Already Have An Account? Sign In
+						Don&apos;t Have An Account? Sign Up
 						<ArrowRight className='w-4 h-4' />
 					</Link>
 				</div>
@@ -108,14 +122,39 @@ const SignUp = () => {
 							</div>
 
 							<Button type='submit' disabled={!isDirty || !isValid}>
-								Sign Up
+								Sign in
 							</Button>
 						</div>
 					</form>
+					<div className='relative'>
+						<div aria-hidden='true' className='absolute inset-0 flex items-center'>
+							<span className='w-full border-t'></span>
+						</div>
+						<div className='relative flex justify-center text-xs uppercase'>
+							<span className='bg-background px-2 text-muted-foreground'>or</span>
+						</div>
+					</div>
+					{isSeller ? (
+						<Button
+							onClick={continueAsBuyer}
+							variant={'secondary'}
+							disabled={isLoading}
+						>
+							Continue as customer
+						</Button>
+					) : (
+						<Button
+							onClick={continueAsSeller}
+							variant={'secondary'}
+							disabled={isLoading}
+						>
+							Continue as Seller
+						</Button>
+					)}
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default SignUp;
+export default SignIn;
