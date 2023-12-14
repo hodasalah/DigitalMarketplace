@@ -12,7 +12,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {ArrowRight} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {useRouter, useSearchParams} from 'next/navigation';
+import {useRouter, useSearchParams,usePathname} from 'next/navigation';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {toast} from 'sonner';
 
@@ -39,8 +39,7 @@ const SignIn = () => {
 
 	const {mutate, isLoading} = trpc.auth.signIn.useMutation({
 		onSuccess: () => {
-			toast.success('signed in successfully');
-			router.refresh();
+			toast.success('You have been logged in successfully .');
 			if (origin) {
 				router.push(`/${origin}`);
 				return;
@@ -50,6 +49,7 @@ const SignIn = () => {
 				return;
 			}
 			router.push('/');
+			router.refresh();
 		},
 		onError: (err) => {
 			if (err.data?.code === 'UNAUTHORIZED') {

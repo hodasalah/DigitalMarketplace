@@ -4,6 +4,9 @@ import { slateEditor } from '@payloadcms/richtext-slate'
 import dotenv from 'dotenv'
 import path from 'path'
 import { buildConfig } from 'payload/config'
+import { Media } from './collections/Media'
+import { ProductFile } from './collections/ProductFile'
+import { Products } from './collections/Products/Products'
 import { Users } from './collections/Users'
 
 
@@ -17,7 +20,7 @@ export default buildConfig({
   // But, here is where you define how you'd like Payload to work!
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "",
 
-  collections: [Users],
+  collections: [Users, Products, Media, ProductFile],
   // Configure the Mongoose adapter here
   db: mongooseAdapter({
     // Mongoose-specific arguments go here.

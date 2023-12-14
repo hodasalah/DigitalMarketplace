@@ -25,7 +25,7 @@ const SignUp = () => {
 		formState: {errors, isDirty, isValid},
 	} = useForm<TAuthCredentialsValidator>({
 		resolver: zodResolver(AuthCredentialsValidator),
-		mode: "all",
+		mode: 'all',
 	});
 
 	const {mutate, isLoading} = trpc.auth.createPayloadUser.useMutation({
@@ -107,7 +107,7 @@ const SignUp = () => {
 								)}
 							</div>
 
-							<Button type='submit' disabled={!isDirty || !isValid}>
+							<Button type='submit' disabled={!isDirty || !isValid || isLoading}>
 								Sign Up
 							</Button>
 						</div>
