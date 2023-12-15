@@ -1,3 +1,4 @@
+import { inferAsyncReturnType } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import dotenv from "dotenv";
 import express from "express";
@@ -5,7 +6,6 @@ import path from "path";
 import { getPayloadClient } from "./get-payload";
 import { nextApp, nextHandler } from "./next-utils";
 import { appRouter } from "./trpc";
-import { inferAsyncReturnType } from "@trpc/server";
 //initialise our app with express
 const app = express();
 // define our server port
