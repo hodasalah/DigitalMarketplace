@@ -1,19 +1,17 @@
-import { webpackBundler } from '@payloadcms/bundler-webpack'
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { slateEditor } from '@payloadcms/richtext-slate'
-import dotenv from 'dotenv'
-import path from 'path'
-import { buildConfig } from 'payload/config'
-import { Media } from './collections/Media'
-import { ProductFile } from './collections/ProductFile'
-import { Products } from './collections/Products/Products'
-import { Users } from './collections/Users'
-
-
+import { webpackBundler } from "@payloadcms/bundler-webpack";
+import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { slateEditor } from "@payloadcms/richtext-slate";
+import dotenv from "dotenv";
+import path from "path";
+import { buildConfig } from "payload/config";
+import { Media } from "./collections/Media";
+import { ProductFile } from "./collections/ProductFile";
+import { Products } from "./collections/Products/Products";
+import { Users } from "./collections/Users";
 
 dotenv.config({
-  path: path.resolve(__dirname, "../.env")
-})
+  path: path.resolve(__dirname, "../.env"),
+});
 export default buildConfig({
   // By default, Payload will boot up normally
   // and you will be provided with a base `User` collection.
@@ -27,10 +25,8 @@ export default buildConfig({
     // URL is required.
     url: process.env.MONGODB_URL ? process.env.MONGODB_URL : false,
     connectOptions: {
-      dbName: "DigitalMarketplace"
-    }
-
-
+      dbName: "DigitalMarketplace",
+    },
   }),
 
   routes: {
@@ -42,17 +38,15 @@ export default buildConfig({
     meta: {
       titleSuffix: "- DigitalMarketplace",
       favicon: "/favicon.ico",
-      ogImage: "/thumbnail.jpg"
+      ogImage: "/thumbnail.jpg",
     },
     //css: path.resolve(__dirname, 'src/app/payload.css'),
-
   },
   rateLimit: {
     max: 2000,
   },
   editor: slateEditor({}),
   typescript: {
-    outputFile: path.resolve(__dirname, "payload-types.ts")
-  }
-
-})
+    outputFile: path.resolve(__dirname, "payload-types.ts"),
+  },
+});

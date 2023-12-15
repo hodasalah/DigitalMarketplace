@@ -1,37 +1,40 @@
-import { Access, CollectionConfig } from 'payload/types';
-import { User } from '../payload-types';
-const isAdminOrHasAccessToImages = (): Access => async ({ req }) => {
-  const user = req.user as User | undefined;
-  if (!user) return false
-  if (user?.role === "admin") return true
-  return {
-    user: {
-      equals: req.user.id
-    }
-  }
-}
+import { Access, CollectionConfig } from "payload/types";
+import { User } from "../payload-types";
+const isAdminOrHasAccessToImages =
+  (): Access =>
+  async ({ req }) => {
+    const user = req.user as User | undefined;
+    if (!user) return false;
+    if (user?.role === "admin") return true;
+    return {
+      user: {
+        equals: req.user.id,
+      },
+    };
+  };
 
 export const Media: CollectionConfig = {
   slug: "media",
   access: {
     read: async ({ req }) => {
-      const referer = req.headers.referer
+      const referer = req.headers.referer;
       if (!req.user || !referer?.includes("sell")) {
-        return true
+        return true;
       }
-      return await isAdminOrHasAccessToImages()({ req })
+      return await isAdminOrHasAccessToImages()({ req });
     },
     delete: isAdminOrHasAccessToImages(),
-    update: isAdminOrHasAccessToImages()
+    update: isAdminOrHasAccessToImages(),
   },
   hooks: {
-    beforeChange: [({ req, data }) => {
-      return { ...data, user: req.user.id }
-    },
-    ]
+    beforeChange: [
+      ({ req, data }) => {
+        return { ...data, user: req.user.id };
+      },
+    ],
   },
   admin: {
-    hidden: ({ user }) => user.role !== "admin"
+    hidden: ({ user }) => user.role !== "admin",
   },
   upload: {
     staticURL: "/media",
@@ -41,19 +44,19 @@ export const Media: CollectionConfig = {
         name: "thumbnail",
         width: 400,
         height: 300,
-        position: "centre"
+        position: "centre",
       },
       {
         name: "card",
         width: 768,
         height: 1024,
-        position: "centre"
+        position: "centre",
       },
       {
         name: "tablet",
         width: 1024,
         height: undefined,
-        position: "centre"
+        position: "centre",
       },
     ],
     mimeTypes: ["image/*"],
@@ -61,13 +64,13 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: "user",
-      type: 'relationship',
+      type: "relationship",
       relationTo: "users",
       required: true,
       hasMany: false,
       admin: {
-        condition: () => false
+        condition: () => false,
       },
-    }
-  ]
-}
+    },
+  ],
+};

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import path from "path";
-import payload, { Payload } from 'payload';
+import payload, { Payload } from "payload";
 import type { InitOptions } from "payload/config";
 
 // Load environment variables from .env file
@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Initialize a global cache for the Payload client
-let cachedPayload = (global as any).payload
+let cachedPayload = (global as any).payload;
 
 // If the cache is not yet initialized, initialize it
 if (!cachedPayload) {
@@ -36,7 +36,9 @@ interface Args {
 }
 
 // Function to get the Payload client
-export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payload> => {
+export const getPayloadClient = async ({
+  initOptions,
+}: Args = {}): Promise<Payload> => {
   if (!process.env.PAYLOAD_SECRET) {
     throw new Error("Payload secret is missing!");
   }
@@ -53,9 +55,8 @@ export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payl
         fromName: "Hoda Salah",
       },
       secret: process.env.PAYLOAD_SECRET,
-      local: (initOptions && initOptions?.express) ? false : true,
+      local: initOptions && initOptions?.express ? false : true,
       ...(initOptions || {}),
-
     });
   }
 
@@ -65,5 +66,5 @@ export const getPayloadClient = async ({ initOptions }: Args = {}): Promise<Payl
     cachedPayload.promise = null;
   }
 
-  return cachedPayload.client
-}
+  return cachedPayload.client;
+};

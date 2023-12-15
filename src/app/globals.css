@@ -59,40 +59,38 @@
   }
 }
 
-
 /* Logo  color style */
 .st0 {
   opacity: 0;
-  fill: #FFFFFF;
+  fill: #ffffff;
 }
 
 .st1 {
-  fill: #1D1F25;
+  fill: #1d1f25;
 }
 
 .st2 {
-  fill: #E0ECDE;
+  fill: #e0ecde;
 }
 
 .st3 {
-  fill: #1F2F49;
+  fill: #1f2f49;
 }
 
 .st4 {
-  fill: #1E2F49;
+  fill: #1e2f49;
 }
 
 .st5 {
-  fill: #02AFE7;
+  fill: #02afe7;
 }
 
 .st6 {
   fill: url(#SVGID_1_);
 }
 
-
 /* reduce padding in small screens */
-@media screen and (max-width:320px) {
+@media screen and (max-width: 320px) {
   .container {
     padding-left: 1rem;
     padding-right: 1rem;

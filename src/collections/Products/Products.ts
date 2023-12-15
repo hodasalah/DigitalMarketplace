@@ -1,5 +1,5 @@
-import { CollectionConfig } from 'payload/types';
-import { PRODUCT_CATEGORIES } from '../../config';
+import { CollectionConfig } from "payload/types";
+import { PRODUCT_CATEGORIES } from "../../config";
 export const Products: CollectionConfig = {
   slug: "products",
   admin: {
@@ -15,7 +15,7 @@ export const Products: CollectionConfig = {
       hasMany: false,
       admin: {
         condition: () => false,
-      }
+      },
     },
     {
       name: "name",
@@ -44,11 +44,11 @@ export const Products: CollectionConfig = {
       required: true,
     },
     {
-      name: 'product_files',
-      label: 'Product file(s)',
-      type: 'relationship',
+      name: "product_files",
+      label: "Product file(s)",
+      type: "relationship",
       required: true,
-      relationTo: 'product_files',
+      relationTo: "product_files",
       hasMany: false,
     },
     {
@@ -57,8 +57,7 @@ export const Products: CollectionConfig = {
       access: {
         create: ({ req }) => req.user.role === "admin",
         read: ({ req }) => req.user.role === "admin",
-        update: ({ req }) => req.user.role === "admin"
-
+        update: ({ req }) => req.user.role === "admin",
       },
       type: "select",
       defaultValue: "pending",
@@ -73,21 +72,20 @@ export const Products: CollectionConfig = {
         },
         {
           label: "Denied",
-          value: "denied"
-        }
-      ]
-
+          value: "denied",
+        },
+      ],
     },
     {
       name: "priceId",
       access: {
         create: () => false,
         read: () => false,
-        update: () => false
+        update: () => false,
       },
       type: "text",
       admin: {
-        hidden: true
+        hidden: true,
       },
     },
     {
@@ -95,11 +93,11 @@ export const Products: CollectionConfig = {
       access: {
         create: () => false,
         read: () => false,
-        update: () => false
+        update: () => false,
       },
       type: "text",
       admin: {
-        hidden: true
+        hidden: true,
       },
     },
     {
@@ -111,16 +109,16 @@ export const Products: CollectionConfig = {
       required: true,
       labels: {
         singular: "Image",
-        plural: "Images"
+        plural: "Images",
       },
       fields: [
         {
           name: "image",
           type: "upload",
           relationTo: "media",
-          required: true
-        }
-      ]
-    }
-  ]
-}
+          required: true,
+        },
+      ],
+    },
+  ],
+};

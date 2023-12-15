@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload/types';
+import { CollectionConfig } from "payload/types";
 
 export const Users: CollectionConfig = {
   slug: "users",
@@ -6,34 +6,33 @@ export const Users: CollectionConfig = {
     verify: {
       // from resend.com >docs >serverless>stmp>nodemailer
       generateEmailHTML: ({ token }) => {
-        return `<a href= ${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}>Verify Account</a>`
-      }
-    }
+        return `<a href= ${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}>Verify Account</a>`;
+      },
+    },
   },
   access: {
     read: () => true,
     create: () => true,
-
   },
   fields: [
     {
-      name: 'products',
-      label: 'Products',
+      name: "products",
+      label: "Products",
       admin: {
         condition: () => false,
       },
-      type: 'relationship',
-      relationTo: 'products',
+      type: "relationship",
+      relationTo: "products",
       hasMany: true,
     },
     {
-      name: 'product_files',
-      label: 'Product files',
+      name: "product_files",
+      label: "Product files",
       admin: {
         condition: () => false,
       },
-      type: 'relationship',
-      relationTo: 'product_files',
+      type: "relationship",
+      relationTo: "product_files",
       hasMany: true,
     },
     {
@@ -43,12 +42,11 @@ export const Users: CollectionConfig = {
       // admin: {
       //   condition: () => false,
       // },
-      type: 'select',
+      type: "select",
       options: [
         { label: "Admin", value: "admin" },
-        { label: "User", value: "user" }
-      ]
-    }
+        { label: "User", value: "user" },
+      ],
+    },
   ],
-
-}
+};
