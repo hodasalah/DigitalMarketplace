@@ -12,8 +12,9 @@ export interface Config {
     products: Product;
     media: Media;
     product_files: ProductFile;
-    "payload-preferences": PayloadPreference;
-    "payload-migrations": PayloadMigration;
+    orders: Order;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
   };
   globals: {};
 }
@@ -21,7 +22,7 @@ export interface User {
   id: string;
   products?: (string | Product)[] | null;
   product_files?: (string | ProductFile)[] | null;
-  role: "admin" | "user";
+  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -41,9 +42,9 @@ export interface Product {
   name: string;
   description?: string | null;
   price: number;
-  category: "ui_kits" | "icons";
+  category: 'ui_kits' | 'icons';
   product_files: string | ProductFile;
-  approvedForSale?: ("pending" | "approved" | "denied") | null;
+  approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   priceId?: string | null;
   stripeId?: string | null;
   images: {
@@ -103,22 +104,43 @@ export interface Media {
     };
   };
 }
+export interface Order {
+  id: string;
+  _isPaid: boolean;
+  user: string | User;
+  products: (string | Product)[];
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password: string | null;
+}
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: "users";
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'orders';
+        value: string | Order;
+      };
   key?: string | null;
   value?:
-  | {
-    [k: string]: unknown;
-  }
-  | unknown[]
-  | string
-  | number
-  | boolean
-  | null;
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -130,6 +152,7 @@ export interface PayloadMigration {
   createdAt: string;
 }
 
-declare module "payload" {
-  export interface GeneratedTypes extends Config { }
+
+declare module 'payload' {
+  export interface GeneratedTypes extends Config {}
 }
