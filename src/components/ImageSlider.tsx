@@ -36,7 +36,7 @@ const ImageSlider = ({ urls }: ImageProps) => {
 	const inActiveStyles = 'hidden text-gray-400';
 
 	return (
-		<div className='group  bg-zinc-100 aspect-square  rounded-t-lg'>
+		<div className='group  bg-zinc-100 aspect-square w-full  rounded-t-lg h-full'>
 			<div className='absolute z-10 inset-0 opacity-0 group-hover:opacity-100 transition'>
 				<button
 					className={cn(activeStyles, 'right-2 transition', {
