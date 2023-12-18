@@ -1,11 +1,14 @@
 'use client';
+import AddToCartButton from '@/components/AddToCartButton';
 import ImageSlider from '@/components/ImageSlider';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import ProductReel from '@/components/ProductReel';
 import { buttonVariants } from '@/components/ui/button';
 import { PRODUCT_CATEGORIES } from '@/config';
 import { formatPrice } from '@/lib/utils';
+import { Product } from '@/payload-types';
 import { trpc } from '@/trpc/client';
-import { Check, Loader2 } from 'lucide-react';
+import { Check, Loader2, Shield } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -21,14 +24,27 @@ const BREADCRUMBS = [
 ];
 const ProductDetails = ({ params }: ProductDetailsProps) => {
 	const { productId } = params;
+	
 	const { data, isLoading, isSuccess, isError } =
 		trpc.getProductById.getProductById.useQuery({
 			id: productId,
 		});
-	const [product] = data?.products || [{ name: 'hoda' }];
-	const validUrls = product?.images
-		?.map(({ image }) => (typeof image === 'string' ? image : image.url))
-		.filter(Boolean) as string[];
+
+	const { products } = data ? data : ([] as Product[]);
+	let mapProducts: (Product | null)[] = [];
+
+	if (products && products.length) {
+		mapProducts = products;
+	} else if (isLoading) {
+		mapProducts = []
+	}
+	let [product]= mapProducts
+	const validUrls =
+		(product?.images
+			?.map(({ image }) =>
+				typeof image === 'string' ? image : image.url,
+			)
+			.filter(Boolean) as string[]) || [];
 
 	console.log(data);
 	// const payload = await getPayloadClient();
@@ -49,14 +65,14 @@ const ProductDetails = ({ params }: ProductDetailsProps) => {
 		(cat) => cat.value === product?.category,
 	)?.label;
 
-	if (isLoading) {
+	if (isLoading || !product) {
 		return (
 			<div className='flex items-center justify-center w-full h-[calc(100vh-4rem)]'>
 				<Loader2 className='animate-spin text-blue-500 w-16 h-16' />
 			</div>
 		);
 	}
-	if (isError) {
+	if (isError || products.length === 0 || typeof data === 'undefined') {
 		return (
 			<div className='flex flex-col items-center justify-center h-[calc(100vh-4rem)]  mx-auto'>
 				<div className='relative w-full  h-[340px] md:px-0 px-10'>
@@ -153,8 +169,35 @@ const ProductDetails = ({ params }: ProductDetailsProps) => {
 						</div>
 					</div>
 					{/* DISPLAY ADD TO CART  */}
+					<div className='mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start'>
+						<div>
+							<div className='mt-10'>
+								<AddToCartButton product={product} />
+							</div>
+							<div className='mt-6 text-center'>
+								<div className='group inline-flex text-sm font-medium'>
+									<Shield
+										aria-hidden='true'
+										className='w-5 h-5 mr-2 flex-shrink-0 text-gray-400'
+									/>
+									<span className='capitalize text-muted-foreground hover:text-gray-700'>
+										30 day return Guarantee
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
+			<ProductReel
+				title={`Similar ${label}`}
+				subTitle={`Browse similar high-quality ${label}`}
+				href='/products'
+				query={{
+					limit: 5,
+					category: product.category,
+				}}
+			/>
 		</MaxWidthWrapper>
 	) : null;
 };
