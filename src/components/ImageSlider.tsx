@@ -1,3 +1,4 @@
+'use client';
 // using swiper slider
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -86,6 +87,7 @@ const ImageSlider = ({ urls }: ImageProps) => {
 					>
 						<Image
 							fill
+							sizes='(max-width: 768px) 400px, (max-width: 1200px) 600px, 400px'
 							loading='eager'
 							className='-z-10 h-full w-full object-cover object-center'
 							src={url}

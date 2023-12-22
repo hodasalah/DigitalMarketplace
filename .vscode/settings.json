@@ -4,6 +4,10 @@
     "jsx-tags"
   ],
   "cSpell.words": [
-    "Swiper"
-  ]
+    "Swiper",
+    "trpc"
+  ],
+  // other vscode settings specific to this project...
+  "typescript.suggest.autoImports": true, // or
+  "javascript.suggest.autoImports": true
 }

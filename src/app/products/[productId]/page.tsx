@@ -1,13 +1,12 @@
-'use client';
+//import ImageSlider from '@/components/ImageSlider';
 import AddToCartButton from '@/components/AddToCartButton';
 import ImageSlider from '@/components/ImageSlider';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import ProductReel from '@/components/ProductReel';
 import { buttonVariants } from '@/components/ui/button';
 import { PRODUCT_CATEGORIES } from '@/config';
+import { getPayloadClient } from '@/get-payload';
 import { formatPrice } from '@/lib/utils';
-import { Product } from '@/payload-types';
-import { trpc } from '@/trpc/client';
 import { Check, Loader2, Shield } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,23 +21,22 @@ const BREADCRUMBS = [
 	{ id: 1, name: 'Home', href: '/' },
 	{ id: 2, name: 'Products', href: '/products' },
 ];
-const ProductDetails = ({ params }: ProductDetailsProps) => {
+const ProductDetails = async ({ params }: ProductDetailsProps) => {
 	const { productId } = params;
-	
-	const { data, isLoading, isSuccess, isError } =
-		trpc.getProductById.getProductById.useQuery({
-			id: productId,
-		});
-
-	const { products } = data ? data : ([] as Product[]);
-	let mapProducts: (Product | null)[] = [];
-
-	if (products && products.length) {
-		mapProducts = products;
-	} else if (isLoading) {
-		mapProducts = []
-	}
-	let [product]= mapProducts
+	const payload = await getPayloadClient();
+	const { docs } = await payload.find({
+		collection: 'products',
+		limit: 1,
+		where: {
+			id: {
+				equals: productId,
+			},
+			approvedForSale: {
+				equals: 'approved',
+			},
+		},
+	});
+	let [product] = docs;
 	const validUrls =
 		(product?.images
 			?.map(({ image }) =>
@@ -46,33 +44,18 @@ const ProductDetails = ({ params }: ProductDetailsProps) => {
 			)
 			.filter(Boolean) as string[]) || [];
 
-	console.log(data);
-	// const payload = await getPayloadClient();
-	// const { docs: products } = await payload.find({
-	// 	collection: 'products',
-	// 	limit: 1,
-	// 	where: {
-	// 		id: {
-	// 			equals: productId,
-	// 		},
-	// 		approvedForSale: {
-	// 			equals: 'approved',
-	// 		},
-	// 	},
-	// });
-	// const [product] = products;
 	const label = PRODUCT_CATEGORIES.find(
 		(cat) => cat.value === product?.category,
 	)?.label;
 
-	if (isLoading || !product) {
+	if (!product) {
 		return (
 			<div className='flex items-center justify-center w-full h-[calc(100vh-4rem)]'>
 				<Loader2 className='animate-spin text-blue-500 w-16 h-16' />
 			</div>
 		);
 	}
-	if (isError || products.length === 0 || typeof data === 'undefined') {
+	if (!product) {
 		return (
 			<div className='flex flex-col items-center justify-center h-[calc(100vh-4rem)]  mx-auto'>
 				<div className='relative w-full  h-[340px] md:px-0 px-10'>
@@ -103,7 +86,7 @@ const ProductDetails = ({ params }: ProductDetailsProps) => {
 			</div>
 		);
 	}
-	return data?.products?.length && product && isSuccess ? (
+	return product ? (
 		<MaxWidthWrapper className='bg-white'>
 			<div className='bg-white'>
 				<div className='mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8'>
@@ -163,8 +146,9 @@ const ProductDetails = ({ params }: ProductDetailsProps) => {
 						</section>
 					</div>
 					{/* Display Product Image */}
-					<div className='mt-10 lg:col-start-2 lg:row-start-2 lg:mt-0 lg:self-center'>
+					<div className='mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center'>
 						<div className='aspect-square rounded-lg relative overflow-hidden w-full border-2 border-gray-100'>
+							{/* <ImageSlider urls={validUrls} /> */}
 							<ImageSlider urls={validUrls} />
 						</div>
 					</div>

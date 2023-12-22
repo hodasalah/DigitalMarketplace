@@ -55,7 +55,7 @@ export default function Home() {
 					title='Brand new'
 					subTitle='yadodo'
 					href='/products'
-					query={{category:"icons",limit:4,sort:"desc"}}
+					query={{ category: 'ui_kits', limit: 6, sort: 'desc' }}
 				/>
 			</MaxWidthWrapper>
 			<section className='border-t border-gray-200 bg-gray-50'>

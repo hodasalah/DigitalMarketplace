@@ -11,17 +11,16 @@ const yourOwn: Access = ({ req: { user } }) => {
 
 export const Orders: CollectionConfig = {
 	slug: 'orders',
+	admin: {
+		useAsTitle: 'Your Orders',
+		description: 'A summary of all your orders on DigitalHippo.',
+	},
 	access: {
 		read: yourOwn,
 		update: ({ req }) => req.user.role === 'admin',
-		create: ({ req }) => req.user.role === 'admin',
 		delete: ({ req }) => req.user.role === 'admin',
+		create: ({ req }) => req.user.role === 'admin',
 	},
-	admin: {
-		useAsTitle: 'Your Orders',
-		description: 'A summary of all your orders on DigitalMarketplace.',
-	},
-	auth: {},
 	fields: [
 		{
 			name: '_isPaid',
