@@ -9,6 +9,7 @@ import CartItem from './CartItem';
 import { buttonVariants } from './ui/button';
 import { Separator } from './ui/separator';
 
+import { useEffect, useState } from 'react';
 import {
 	Sheet,
 	SheetContent,
@@ -17,7 +18,6 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from './ui/sheet';
-import { useEffect, useState } from 'react';
 
 const Cart = () => {
 	const { items } = useCart();
@@ -25,10 +25,10 @@ const Cart = () => {
 	const fee = 1;
 	const total = items.reduce((total, product) => total + product.price, 0);
 	const [isMounted, setIsMounted] = useState<boolean>(false);
-	useEffect(()=>{
+	useEffect(() => {
 		setIsMounted(true);
-	},[])
-	
+	}, []);
+
 	return (
 		<Sheet>
 			<SheetTrigger className='group -m-2 flex items-center p-2'>
@@ -37,7 +37,7 @@ const Cart = () => {
 					className='text-gray-400 group-hover:text-gray-500 h-6 w-6 flex-shrink-0'
 				/>
 				<span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-					{isMounted?itemCount:0}
+					{isMounted ? itemCount : 0}
 				</span>
 			</SheetTrigger>
 			<SheetContent className='flex w-full flex-col pr-0 sm:max-w-lg'>
@@ -51,7 +51,7 @@ const Cart = () => {
 								{/* TODO: Card logic */}
 								{items.map((item, i) => (
 									<CartItem
-										key={item.id}
+										key={i}
 										product={item}
 									/>
 								))}

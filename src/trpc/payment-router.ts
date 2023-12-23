@@ -15,7 +15,6 @@ export const paymentRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			const { user } = ctx;
 			let { productIds } = input;
-
 			// find stripeIdes from product
 
 			if (productIds.length === 0) {
@@ -60,7 +59,7 @@ export const paymentRouter = router({
 			});
 
 			line_items.push({
-				price: process.env.STRIPE_PRODUCT_PRICE_ID,
+				price: 'price_1OQKrJLrSGhoCyMMxG1xLMKC',
 				quantity: 1,
 				adjustable_quantity: {
 					enabled: false,
@@ -71,7 +70,7 @@ export const paymentRouter = router({
 				const stripeSession = await stripe.checkout.sessions.create({
 					success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
 					cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
-					payment_method_types: ['card', 'paypal'],
+					payment_method_types: ['card'],
 					mode: 'payment',
 					metadata: {
 						userId: user.id,
@@ -81,8 +80,8 @@ export const paymentRouter = router({
 				});
 
 				return { url: stripeSession.url };
-			} catch (err) {
-				return { url: null };
+			} catch (err: any) {
+				throw new Error(err.message);
 			}
 		}),
 });

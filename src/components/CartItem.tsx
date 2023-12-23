@@ -24,6 +24,7 @@ const CartItem = ({ product }: { product: Product }) => {
 							<Image
 								src={image.url}
 								alt={product.name}
+								sizes='(max-width:767px) 400px (min-width:1200px) 600px'
 								fill
 								className='absolute object-cover'
 							/>

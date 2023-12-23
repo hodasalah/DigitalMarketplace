@@ -4,6 +4,8 @@ import { PRODUCT_CATEGORIES } from '@/config';
 import { useCart } from '@/hooks/use-cart';
 import { cn, formatPrice } from '@/lib/utils';
 import { trpc } from '@/trpc/client';
+import { TRPCClientError } from '@trpc/client';
+import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 import { Check, Loader2, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -30,9 +32,14 @@ const CartPage = () => {
 				if (url) {
 					router.push(url);
 				}
+				console.log(url);
 			},
 			onError: (err) => {
-				toast.error(err.data?.code);
+				if (err instanceof TRPCClientError) {
+					const httpCode = getHTTPStatusCodeFromError(err);
+					console.log(httpCode);
+				}
+				toast.error(err.message);
 			},
 		},
 	);
@@ -60,7 +67,7 @@ const CartPage = () => {
 		);
 	}
 
-	return isMounted && items.length > 0 ? (
+	return items.length > 0 ? (
 		<div className='bg-white'>
 			<div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
 				<h1 className='text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
@@ -82,7 +89,7 @@ const CartPage = () => {
 							})}
 						>
 							{isMounted &&
-								items.map((product) => {
+								items.map((product, i) => {
 									const label = PRODUCT_CATEGORIES.find(
 										(c) => c.value === product.category,
 									)?.label;
@@ -91,7 +98,7 @@ const CartPage = () => {
 
 									return (
 										<li
-											key={product.id}
+											key={i}
 											className='flex py-6 sm:py-10'
 										>
 											<div className='flex-shrink-0'>
