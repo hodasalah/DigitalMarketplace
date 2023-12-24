@@ -18,7 +18,7 @@ const ImageSlider = ({ urls }: ImageProps) => {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [slideConfig, setSlideConfig] = useState({
 		isBeginning: true,
-		isEnd: activeIndex === (urls.length ?? 0) - 1,
+		isEnd: activeIndex === (urls?.length ?? 0) - 1,
 	});
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ const ImageSlider = ({ urls }: ImageProps) => {
 			setActiveIndex(activeIndex);
 			setSlideConfig({
 				isBeginning: activeIndex == 0,
-				isEnd: activeIndex === (urls.length ?? 0) - 1,
+				isEnd: activeIndex === (urls?.length ?? 0) - 1,
 			});
 		});
 	}, [swiper, urls]);
@@ -80,7 +80,7 @@ const ImageSlider = ({ urls }: ImageProps) => {
 				slidesPerView={1}
 				className='h-full w-full'
 			>
-				{urls.map((url, i) => (
+				{urls?.map((url, i) => (
 					<SwiperSlide
 						key={i}
 						className='-z-10 relative h-full w-full'

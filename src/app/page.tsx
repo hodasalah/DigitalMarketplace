@@ -53,9 +53,9 @@ export default function Home() {
 				</div>
 				<ProductReel
 					title='Brand new'
-					subTitle='yadodo'
+					subTitle='see our featured products'
 					href='/products'
-					query={{ category: 'illustration', limit: 6, sort: 'desc' }}
+					query={{ category: undefined, limit: 3, sort: 'desc' }}
 				/>
 			</MaxWidthWrapper>
 			<section className='border-t border-gray-200 bg-gray-50'>
