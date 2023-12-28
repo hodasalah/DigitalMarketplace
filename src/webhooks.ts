@@ -2,11 +2,11 @@ import express from 'express';
 import type Stripe from 'stripe';
 //import { ReceiptEmailHtml } from './components/emails/ReceiptEmail';
 import { Resend } from 'resend';
+import { ReceiptEmailHtml } from './components/emails/ReceiptEmail';
 import { getPayloadClient } from './get-payload';
 import { stripe } from './lib/stripe';
 import { Product } from './payload-types';
 import { WebhookRequest } from './server';
-import { ReceiptEmailHtml } from './components/emails/ReceiptEmail';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const stripeWebhookHandler = async (

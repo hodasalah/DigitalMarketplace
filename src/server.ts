@@ -1,14 +1,16 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import { IncomingMessage } from 'http';
+import nextBuild from 'next/dist/build';
 import path from 'path';
 import { getPayloadClient } from './get-payload';
 import { nextApp, nextHandler } from './next-utils';
 import { appRouter } from './trpc';
-import bodyParser from 'body-parser';
 import { stripeWebhookHandler } from './webhooks';
+
 //initialise our app with express
 const app = express();
 // define our server port
@@ -38,7 +40,7 @@ const start = async (): Promise<void> => {
 			req.rawBody = buffer;
 		},
 	});
-   app.post('/api/webhooks/stripe', webhookMiddleware, stripeWebhookHandler);
+	app.post('/api/webhooks/stripe', webhookMiddleware, stripeWebhookHandler);
 
 	const payload = await getPayloadClient({
 		initOptions: {
@@ -48,6 +50,18 @@ const start = async (): Promise<void> => {
 			},
 		},
 	});
+	if (process.env.NEXT_BUILD) {
+		app.listen(PORT, async () => {
+			payload.logger.info('Next.js is building for production');
+
+			// @ts-expect-error
+			await nextBuild(path.join(__dirname, '../'));
+
+			process.exit();
+		});
+
+		return;
+	}
 	app.use(
 		'/api/trpc',
 		trpcExpress.createExpressMiddleware({

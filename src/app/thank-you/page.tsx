@@ -1,6 +1,6 @@
 import { PRODUCT_CATEGORIES } from '@/config';
 import { formatPrice } from '@/lib/utils';
-import { Product, ProductFile } from '@/payload-types';
+import { Product, ProductFile, User } from '@/payload-types';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +8,6 @@ import { notFound, redirect } from 'next/navigation';
 import { getPayloadClient } from '../../get-payload';
 import { getServerSideUser } from '../../lib/payload-utils';
 import PaymentStatus from './../../components/PaymentStatus';
-import { User } from 'payload/dist/auth';
 
 interface ThankYouPageProps {
 	searchParams: {
@@ -186,7 +185,11 @@ const ThankYouPage = async ({ searchParams }: ThankYouPageProps) => {
 							</div>
 
 							{/* payment status here */}
-							<PaymentStatus orderEmail={(order.user as User).email} orderId={orderId} isPaid={order._isPaid} />
+							<PaymentStatus
+								isPaid={order._isPaid}
+								orderEmail={(order.user as User).email}
+								orderId={order.id}
+							/>
 							<div className='mt-16 border-t border-gray-200 py-6 text-right'>
 								<Link
 									href='/products'
