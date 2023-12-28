@@ -30,11 +30,11 @@ export default function Home() {
 		<>
 			<MaxWidthWrapper>
 				<div className='py-20 mx-auto text-center flex flex-col items-center max-w-3xl'>
-					<h1 className='text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl capitalize'>
+					<h1 className='text-4xl font-bold tracking-tight text-gray-900  sm:text-6xl capitalize sm:leading-[1.27]'>
 						Your Marketplace For high-quality{' '}
 						<span className='text-blue-600'>digital assets</span>.
 					</h1>
-					<p className='mt-6 text-lg max-w-prose text-muted-foreground'>
+					<p className='mt-6 text-lg max-w-prose text-muted-foreground leading-7'>
 						Welcome to Digital-Market. Every assets on our platform
 						is verified by team to ensure our highest quality
 						standards{' '}

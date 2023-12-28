@@ -4,8 +4,6 @@ import { PRODUCT_CATEGORIES } from '@/config';
 import { useCart } from '@/hooks/use-cart';
 import { cn, formatPrice } from '@/lib/utils';
 import { trpc } from '@/trpc/client';
-import { TRPCClientError } from '@trpc/client';
-import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 import { Check, Loader2, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,13 +30,8 @@ const CartPage = () => {
 				if (url) {
 					router.push(url);
 				}
-				console.log(url);
 			},
 			onError: (err) => {
-				if (err instanceof TRPCClientError) {
-					const httpCode = getHTTPStatusCodeFromError(err);
-					console.log(httpCode);
-				}
 				toast.error(err.message);
 			},
 		},

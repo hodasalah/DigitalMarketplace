@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Product } from '@/payload-types';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
