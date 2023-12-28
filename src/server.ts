@@ -6,6 +6,8 @@ import express from 'express';
 import { IncomingMessage } from 'http';
 import nextBuild from 'next/dist/build';
 import path from 'path';
+import { PayloadRequest } from 'payload/types';
+import { parse } from 'url';
 import { getPayloadClient } from './get-payload';
 import { nextApp, nextHandler } from './next-utils';
 import { appRouter } from './trpc';
@@ -62,6 +64,24 @@ const start = async (): Promise<void> => {
 
 		return;
 	}
+
+	const cartRouter = express.Router();
+
+	cartRouter.use(payload.authenticate);
+
+	cartRouter.get('/', (req, res) => {
+		const request = req as PayloadRequest;
+
+		if (!request.user) return res.redirect('/sign-in?origin=cart');
+
+		const parsedUrl = parse(req.url, true);
+		const { query } = parsedUrl;
+
+		return nextApp.render(req, res, '/cart', query);
+	});
+
+	app.use('/cart', cartRouter);
+
 	app.use(
 		'/api/trpc',
 		trpcExpress.createExpressMiddleware({
@@ -74,7 +94,11 @@ const start = async (): Promise<void> => {
 		payload.logger.info('Next js started');
 		app.listen(PORT, async () => {
 			payload.logger.info(
-				`Next js App URL: ${process.env.NEXT_PUBLIC_SERVER_URL}`,
+				`Next js App URL: ${
+					process.env.NODE_ENV !== 'production'
+						? 'http://localhost:3000'
+						: process.env.NEXT_PUBLIC_SERVER_URL
+				}`,
 			);
 		});
 	});

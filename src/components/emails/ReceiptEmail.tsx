@@ -42,10 +42,10 @@ const ReceiptEmail = ({
 					<Section>
 						<Column>
 							<Img
-								src={`${process.env.NEXT_PUBLIC_SERVER_URL}/hippo-email-sent.png`}
+								src={`${process.env.NEXT_PUBLIC_SERVER_URL}/email-sent-2.jpg`}
 								width='100'
 								height='100'
-								alt='DigitalHippo'
+								alt='DigitalMarketplace'
 							/>
 						</Column>
 

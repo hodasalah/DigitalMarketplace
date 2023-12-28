@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Cart from './Cart';
 import { Icons } from './Icons';
 import MaxWidthWrapper from './MaxWidthWrapper';
+import MobileNav from './MobileNav';
 import NavItems from './NavItems';
 import UserAccountNav from './UserAccountNav';
 import { buttonVariants } from './ui/button';
@@ -18,7 +19,7 @@ const Navbar = async () => {
 					<div className='border-b border-gray-200'>
 						<div className='flex h-16 items-center'>
 							{/** TODO mobile Nav */}
-
+							<MobileNav />
 							<div className='flex lg:ml-0'>
 								<Link href='/'>
 									<Icons.logo className='h-16 w-40' />
@@ -48,7 +49,7 @@ const Navbar = async () => {
 										></span>
 									)}
 									{user ? (
-                    //@ts-ignore
+										//@ts-ignore
 										<UserAccountNav user={user} />
 									) : (
 										<Link
