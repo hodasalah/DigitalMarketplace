@@ -41,8 +41,8 @@ export default buildConfig({
 		bundler: webpackBundler(),
 		meta: {
 			titleSuffix: '- DigitalMarketplace',
-			favicon: '/favicon.ico',
-			ogImage: '/thumbnail.jpg',
+			favicon: '/icon.png',
+			ogImage: '/thumbnail.png',
 		},
 		//css: path.resolve(__dirname, 'src/app/payload.css'),
 	},

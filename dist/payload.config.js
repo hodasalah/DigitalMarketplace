@@ -10,10 +10,10 @@ var dotenv_1 = __importDefault(require("dotenv"));
 var path_1 = __importDefault(require("path"));
 var config_1 = require("payload/config");
 var Media_1 = require("./collections/Media");
+var Orders_1 = require("./collections/Orders");
 var ProductFile_1 = require("./collections/ProductFile");
 var Products_1 = require("./collections/Products/Products");
 var Users_1 = require("./collections/Users");
-var Orders_1 = require("./collections/Orders");
 dotenv_1.default.config({
     path: path_1.default.resolve(__dirname, '../.env'),
 });
@@ -21,7 +21,9 @@ exports.default = (0, config_1.buildConfig)({
     // By default, Payload will boot up normally
     // and you will be provided with a base `User` collection.
     // But, here is where you define how you'd like Payload to work!
-    serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
+    serverURL: process.env.NODE_ENV !== 'production'
+        ? 'http://localhost:3000'
+        : process.env.NEXT_PUBLIC_SERVER_URL,
     collections: [Users_1.Users, Products_1.Products, Media_1.Media, ProductFile_1.ProductFile, Orders_1.Orders],
     // Configure the Mongoose adapter here
     db: (0, db_mongodb_1.mongooseAdapter)({

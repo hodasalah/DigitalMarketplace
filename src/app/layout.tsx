@@ -1,8 +1,7 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import Providers from '@/components/trpc/Providers';
-import { cn } from '@/lib/utils';
-import type { Metadata } from 'next';
+import { cn, constructMetadata } from '@/lib/utils';
 import { Poppins } from 'next/font/google';
 import React from 'react';
 import { Toaster } from 'sonner';
@@ -13,10 +12,7 @@ const inter = Poppins({
 	weight: ['100', '200', '300', '400', '500', '600', '700', '900'],
 });
 
-export const metadata: Metadata = {
-	title: 'Digital Marketplace',
-	description: 'Welcome to our store Digital marketplace',
-};
+export const metadata = constructMetadata();
 
 export default function RootLayout({
 	children,
@@ -28,14 +24,6 @@ export default function RootLayout({
 			lang='en'
 			className='h-full'
 		>
-			<head>
-				<link
-					rel='icon'
-					href='/icon.svg'
-					type='image'
-					sizes='any'
-				/>
-			</head>
 			<body
 				className={cn(
 					'relative h-full font-sans antialiased bg-transparent',

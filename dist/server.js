@@ -68,6 +68,7 @@ var dotenv_1 = __importDefault(require("dotenv"));
 var express_1 = __importDefault(require("express"));
 var build_1 = __importDefault(require("next/dist/build"));
 var path_1 = __importDefault(require("path"));
+var url_1 = require("url");
 var get_payload_1 = require("./get-payload");
 var next_utils_1 = require("./next-utils");
 var trpc_1 = require("./trpc");
@@ -88,7 +89,7 @@ var createContext = function (_a) {
     });
 };
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var webhookMiddleware, payload;
+    var webhookMiddleware, payload, cartRouter;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -129,6 +130,17 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                     }); });
                     return [2 /*return*/];
                 }
+                cartRouter = express_1.default.Router();
+                cartRouter.use(payload.authenticate);
+                cartRouter.get('/', function (req, res) {
+                    var request = req;
+                    if (!request.user)
+                        return res.redirect('/sign-in?origin=cart');
+                    var parsedUrl = (0, url_1.parse)(req.url, true);
+                    var query = parsedUrl.query;
+                    return next_utils_1.nextApp.render(req, res, '/cart', query);
+                });
+                app.use('/cart', cartRouter);
                 app.use('/api/trpc', trpcExpress.createExpressMiddleware({
                     router: trpc_1.appRouter,
                     createContext: createContext,
@@ -138,7 +150,9 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                     payload.logger.info('Next js started');
                     app.listen(PORT, function () { return __awaiter(void 0, void 0, void 0, function () {
                         return __generator(this, function (_a) {
-                            payload.logger.info("Next js App URL: ".concat(process.env.NEXT_PUBLIC_SERVER_URL));
+                            payload.logger.info("Next js App URL: ".concat(process.env.NODE_ENV !== 'production'
+                                ? 'http://localhost:3000'
+                                : process.env.NEXT_PUBLIC_SERVER_URL));
                             return [2 /*return*/];
                         });
                     }); });

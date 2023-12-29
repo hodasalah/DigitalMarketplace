@@ -104,8 +104,12 @@ exports.paymentRouter = (0, trpc_1.router)({
                     case 4:
                         _b.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, stripe_1.stripe.checkout.sessions.create({
-                                success_url: "".concat(process.env.NEXT_PUBLIC_SERVER_URL, "/thank-you?orderId=").concat(order.id),
-                                cancel_url: "".concat(process.env.NEXT_PUBLIC_SERVER_URL, "/cart"),
+                                success_url: process.env.NODE_ENV !== 'production'
+                                    ? "http://localhost:3000/thank-you?orderId=".concat(order.id)
+                                    : "".concat(process.env.NEXT_PUBLIC_SERVER_URL, "/thank-you?orderId=").concat(order.id),
+                                cancel_url: process.env.NODE_ENV !== 'production'
+                                    ? "http://localhost:3000/cart"
+                                    : "".concat(process.env.NEXT_PUBLIC_SERVER_URL, "/cart"),
                                 payment_method_types: ['card'],
                                 mode: 'payment',
                                 metadata: {
