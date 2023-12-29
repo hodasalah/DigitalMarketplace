@@ -18,14 +18,12 @@ interface ThankYouPageProps {
 const ThankYouPage = async ({ searchParams }: ThankYouPageProps) => {
 	const orderId = searchParams.orderId;
 	const nextCookie = cookies();
-
 	const { user } = await getServerSideUser(nextCookie);
-
 	const payload = await getPayloadClient();
 
 	const { docs: orders } = await payload.find({
 		collection: 'orders',
-		depth: 2,
+		depth: 3,
 		where: {
 			id: {
 				equals: orderId,
@@ -34,23 +32,23 @@ const ThankYouPage = async ({ searchParams }: ThankYouPageProps) => {
 	});
 
 	const [order] = orders;
-
 	if (!order) return notFound();
 	const orderUserId =
 		typeof order.user === 'string' ? order.user : order.user.id;
 
-	if (orderUserId !== user?.id) {
+	if (!user && orderUserId !== user?.id) {
 		return redirect(`/sign-in?origin=thank-you?orderId=${order.id}`);
 	}
 
 	const products = order.products as Product[];
+
 	const orderTotal = products.reduce((total, product) => {
 		return total + product.price;
 	}, 0);
 
 	return (
 		<main className='relative lg:min-h-full'>
-			<div className='hidden lg:block h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12'>
+			<div className='hidden lg:block overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12'>
 				<Image
 					fill
 					src='/thank-you.jpg'

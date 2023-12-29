@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatPrice } from '../lib/utils';
 import CartItem from './CartItem';
-import { buttonVariants } from './ui/button';
+import {Button, buttonVariants } from './ui/button';
 import { Separator } from './ui/separator';
 
 import { useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ import {
 } from './ui/sheet';
 
 const Cart = () => {
-	const { items } = useCart();
+	const { items ,clearCart} = useCart();
 	const itemCount = items.length;
 	const fee = 1;
 	const total = items.reduce((total, product) => total + product.price, 0);
@@ -78,7 +78,7 @@ const Cart = () => {
 								</div>
 							</div>
 
-							<SheetFooter>
+							<SheetFooter className="gap-2">
 								<SheetTrigger asChild>
 									<Link
 										href='/cart'
@@ -88,6 +88,16 @@ const Cart = () => {
 									>
 										Continue to checkout
 									</Link>
+								</SheetTrigger>
+								<SheetTrigger asChild>
+									<Button
+										onClick={()=>clearCart()}
+										className={buttonVariants({
+											className: 'w-full',
+										})}
+									>
+										Clear Cart 
+									</Button>
 								</SheetTrigger>
 							</SheetFooter>
 						</div>

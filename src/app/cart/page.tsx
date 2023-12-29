@@ -16,7 +16,7 @@ const CartPage = () => {
 	const productIds: string[] = items.map((product) => product.id);
 	const [isMounted, setIsMounted] = useState(false);
 	useEffect(() => {
-		setIsMounted(true);
+		setIsMounted(true)
 	}, []);
 	const cartTotal = items.reduce(
 		(total, product) => total + product?.price,

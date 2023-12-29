@@ -1,4 +1,5 @@
 "use client";
+import Loading from '@/app/loading';
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -65,7 +66,9 @@ const SignIn = () => {
     // TODO send data to our server
     mutate({ email, password });
   };
-
+if(isLoading){
+  return <Loading />
+}
   return (
     <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px]">

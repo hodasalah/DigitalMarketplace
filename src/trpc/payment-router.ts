@@ -2,6 +2,7 @@ import { TRPCError } from '@trpc/server';
 import Stripe from 'stripe';
 import { z } from 'zod';
 import { getPayloadClient } from '../get-payload';
+import { useCart } from '../hooks/use-cart';
 import { stripe } from '../lib/stripe';
 import { privateProcedure, router } from './trpc';
 
@@ -107,6 +108,6 @@ export const paymentRouter = router({
 			});
 			if (!orders.length) throw new TRPCError({ code: 'NOT_FOUND' });
 			const [order] = orders;
-			return { isPaid: order._isPaid };
+			return { isPaid: order._isPaid};
 		}),
 });

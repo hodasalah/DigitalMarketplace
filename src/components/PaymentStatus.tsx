@@ -1,4 +1,5 @@
 'use client';
+import { useCart } from '@/hooks/use-cart';
 import { trpc } from '@/trpc/client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -17,10 +18,13 @@ const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProps) => {
 			refetchInterval: (data) => (data?.isPaid ? false : 1000),
 		},
 	);
-
+	const { clearCart } = useCart();
 	const router = useRouter();
 	useEffect(() => {
-		if (data?.isPaid) router.refresh();
+		if (data?.isPaid) {
+			clearCart();
+			router.refresh();
+		}
 	}, [data?.isPaid, router]);
 	return (
 		<div className='mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600'>
