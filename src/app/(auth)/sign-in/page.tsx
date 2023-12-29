@@ -1,5 +1,4 @@
 'use client';
-import Loading from '@/app/loading';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +15,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import Loading from './../../loading';
 
 const SignIn = () => {
 	const searchParams = useSearchParams();
