@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: ['localhost', 'digitalmarketplace.railway.internal'],
+		domains: ['localhost', 'digitalmarketplace-production-e139.up.railway.app'],
 	},
 };
 
