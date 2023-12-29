@@ -25,7 +25,7 @@ const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProps) => {
 			clearCart();
 			router.refresh();
 		}
-	}, [data?.isPaid, router]);
+	}, [data?.isPaid, router, clearCart]);
 	return (
 		<div className='mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600'>
 			<div>

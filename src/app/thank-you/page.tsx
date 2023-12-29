@@ -36,7 +36,7 @@ const ThankYouPage = async ({ searchParams }: ThankYouPageProps) => {
 	const orderUserId =
 		typeof order.user === 'string' ? order.user : order.user.id;
 
-	if (!user && orderUserId !== user?.id) {
+	if (!user || orderUserId !== user.id) {
 		return redirect(`/sign-in?origin=thank-you?orderId=${order.id}`);
 	}
 
