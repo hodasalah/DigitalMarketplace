@@ -6,7 +6,6 @@ import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Cart from './Cart';
 
 const MobileNav = ({ user }: { user: User | null }) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -52,9 +51,9 @@ const MobileNav = ({ user }: { user: User | null }) => {
 				<div className='fixed inset-0 bg-black bg-opacity-25' />
 			</div>
 
-			<div className='fixed overflow-y-scroll overscroll-y-none inset-0 z-40 flex'>
+			<div className='fixed  inset-0 z-40 flex'>
 				<div className='w-4/5'>
-					<div className='relative flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl h-screen'>
+					<div className='relative flex w-full max-w-sm flex-col  bg-white pb-12 shadow-xl h-screen'>
 						<div className='flex px-4 pb-2 pt-5'>
 							<button
 								type='button'
@@ -82,7 +81,7 @@ const MobileNav = ({ user }: { user: User | null }) => {
 								))}
 							</ul>
 						</div>
-						{user ? (
+						{!user ? (
 							<div className='space-y-6 border-t border-gray-200 px-4 py-6'>
 								<div className='flow-root'>
 									<Link
@@ -108,10 +107,6 @@ const MobileNav = ({ user }: { user: User | null }) => {
 								</div>
 							</div>
 						) : null}
-
-						<div className='ml-4 flow-root lg:ml-6'>
-							<Cart />
-						</div>
 					</div>
 				</div>
 			</div>

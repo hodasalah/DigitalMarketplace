@@ -3,9 +3,10 @@ import Navbar from '@/components/Navbar';
 import Providers from '@/components/trpc/Providers';
 import { cn, constructMetadata } from '@/lib/utils';
 import { Poppins } from 'next/font/google';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import './globals.css';
+import Loading from './loading';
 
 const inter = Poppins({
 	subsets: ['devanagari', 'latin'],
@@ -34,13 +35,15 @@ export default function RootLayout({
 					position='top-center'
 					richColors
 				/>
-				<main className='relative flex flex-col min-h-screen '>
-					<Providers>
-						<Navbar />
-						<div className='flex-grow flex-1'>{children}</div>
-						<Footer />
-					</Providers>
-				</main>
+				<Suspense fallback={<Loading />}>
+					<main className='relative flex flex-col min-h-screen '>
+						<Providers>
+							<Navbar />
+							<div className='flex-grow flex-1'>{children}</div>
+							<Footer />
+						</Providers>
+					</main>
+				</Suspense>
 			</body>
 		</html>
 	);
