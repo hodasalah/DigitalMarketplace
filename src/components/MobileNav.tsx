@@ -1,13 +1,14 @@
 'use client';
 
 import { PRODUCT_CATEGORIES } from '@/config';
+import { User } from '@/payload-types';
 import { Menu, X } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Cart from './Cart';
 
-const MobileNav = () => {
+const MobileNav = ({ user }: { user: User | null }) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	const pathname = usePathname();
@@ -53,7 +54,7 @@ const MobileNav = () => {
 
 			<div className='fixed overflow-y-scroll overscroll-y-none inset-0 z-40 flex'>
 				<div className='w-4/5'>
-					<div className='relative flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl'>
+					<div className='relative flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl h-screen'>
 						<div className='flex px-4 pb-2 pt-5'>
 							<button
 								type='button'
@@ -72,63 +73,44 @@ const MobileNav = () => {
 								{PRODUCT_CATEGORIES.map((category) => (
 									<li
 										key={category.label}
-										className='space-y-10 px-4 pb-8 pt-10'
+										className='p-4'
 									>
-										<div className='border-b border-gray-200'>
-											<div className='-mb-px flex'>
-												<p className='border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 py-4 text-base font-medium'>
-													{category.label}
-												</p>
-											</div>
-										</div>
-
-										<div className='grid grid-cols-2 gap-y-10 gap-x-4'>
-											{category.featured.map((item) => (
-												<div
-													key={item.name}
-													className='group relative text-sm'
-												>
-													<div className='relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75'>
-														<Image
-															fill
-															src={item.imageSrc}
-															alt='product category image'
-															className='object-cover object-center'
-														/>
-													</div>
-													<Link
-														href={item.href}
-														className='mt-6 block font-medium text-gray-900'
-													>
-														{item.name}
-													</Link>
-												</div>
-											))}
-										</div>
+										<p className='border-transparent text-gray-900 flex-1 whitespace-nowrap  text-base font-medium'>
+											{category.label}
+										</p>
 									</li>
 								))}
 							</ul>
 						</div>
+						{user ? (
+							<div className='space-y-6 border-t border-gray-200 px-4 py-6'>
+								<div className='flow-root'>
+									<Link
+										onClick={() =>
+											closeOnCurrent('/sign-in')
+										}
+										href='/sign-in'
+										className='-m-2 block p-2 font-medium text-gray-900'
+									>
+										Sign in
+									</Link>
+								</div>
+								<div className='flow-root'>
+									<Link
+										onClick={() =>
+											closeOnCurrent('/sign-up')
+										}
+										href='/sign-up'
+										className='-m-2 block p-2 font-medium text-gray-900'
+									>
+										Sign up
+									</Link>
+								</div>
+							</div>
+						) : null}
 
-						<div className='space-y-6 border-t border-gray-200 px-4 py-6'>
-							<div className='flow-root'>
-								<Link
-									onClick={() => closeOnCurrent('/sign-in')}
-									href='/sign-in'
-									className='-m-2 block p-2 font-medium text-gray-900'
-								>
-									Sign in
-								</Link>
-							</div>
-							<div className='flow-root'>
-								<Link
-									onClick={() => closeOnCurrent('/sign-up')}
-									href='/sign-up'
-									className='-m-2 block p-2 font-medium text-gray-900'
-								>
-									Sign up
-								</Link>
-							</div>
+						<div className='ml-4 flow-root lg:ml-6'>
+							<Cart />
 						</div>
 					</div>
 				</div>
