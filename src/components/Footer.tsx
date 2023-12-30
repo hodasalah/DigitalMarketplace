@@ -1,10 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Icons } from './Icons';
 import MaxWidthWrapper from './MaxWidthWrapper';
-import Image from 'next/image';
 
 const Footer = () => {
 	const pathname = usePathname();
@@ -17,12 +16,12 @@ const Footer = () => {
 					{pathsToMinimize.includes(pathname) ? null : (
 						<div className='pb-4 pt-4'>
 							<div className='flex justify-center py-6 '>
-										<Image
-											src='/logo.png'
-											alt='logo'
-											width={150}
-											height={50}
-										/>
+								<Image
+									src='/logo.png'
+									alt='logo'
+									width={150}
+									height={50}
+								/>
 							</div>
 						</div>
 					)}

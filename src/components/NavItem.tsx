@@ -24,7 +24,7 @@ const NavItem = ({ category, handleOpen, isOpen, isAnyOpen }: NavItemProps) => {
 			//@ts-ignore
 				ref={ref}
 				className={cn(`
-					flex items-center py-4 mr-4 relative group  text-[#6b6e8a] transition  duration-300 ease before:absolute before:content-[""] before:w-full before:h-[5px] before:-bottom-[12px] before:left-[0] before:transition before:duration-[.3s] before:ease before:opacity-0 before:scale-x-0
+					flex items-center py-4 mr-4 relative group  text-[#6b6e8a] transition  duration-300 ease before:absolute before:content-[""] before:w-full before:h-[5px] before:-bottom-[12px] before:left-[0] before:transition before:duration-300 before:ease before:opacity-0 before:scale-x-0
 					${
 						isOpen &&
 						`before:bg-blue-500 before:opacity-100 before:left-[${ele}px] before:scale-x-100`
