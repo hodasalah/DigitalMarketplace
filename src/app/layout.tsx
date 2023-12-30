@@ -2,14 +2,14 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import Providers from '@/components/trpc/Providers';
 import { cn, constructMetadata } from '@/lib/utils';
-import { Poppins } from 'next/font/google';
+import { Work_Sans } from 'next/font/google';
 import React, { Suspense } from 'react';
 import { Toaster } from 'sonner';
 import './globals.css';
 import Loading from './loading';
 
-const inter = Poppins({
-	subsets: ['devanagari', 'latin'],
+const inter = Work_Sans({
+	subsets: ['latin'],
 	weight: ['100', '200', '300', '400', '500', '600', '700', '900'],
 });
 

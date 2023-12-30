@@ -1,8 +1,8 @@
 import { getServerSideUser } from '@/lib/payload-utils';
 import { cookies } from 'next/headers';
+import Image from 'next/image';
 import Link from 'next/link';
 import Cart from './Cart';
-import { Icons } from './Icons';
 import MaxWidthWrapper from './MaxWidthWrapper';
 import MobileNav from './MobileNav';
 import NavItems from './NavItems';
@@ -13,20 +13,25 @@ const Navbar = async () => {
 	const nextCookies = cookies();
 	const { user } = await getServerSideUser(nextCookies);
 	return (
-		<div className='bg-white sticky z-50 top-0 inset-x-0 h-16'>
-			<header className='relative bg-white'>
+		<div className='bg-white sticky z-50 top-0 inset-x-0 '>
+			<header className='relative bg-white border-b border-gray-200'>
 				<MaxWidthWrapper>
-					<div className='border-b border-gray-200'>
-						<div className='flex h-16 items-center'>
+					<div className='relative'>
+						<div className='flex w-full  items-center justify-center'>
 							{/** TODO mobile Nav */}
 							<MobileNav user={user} />
-							<div className='flex lg:ml-0 ml-1'>
+							<div className='flex lg:ml-0 ml-1 py-6 pl-6 pr-8 border-r border-gray-200'>
 								<Link href='/'>
-									<Icons.logo className='h-16 w-40' />
+									<Image
+										src='/logo.png'
+										alt='logo'
+										width={165}
+										height={50}
+									/>
 								</Link>
 							</div>
 
-							<div className='hidden z-50 lg:ml-8 lg:block lg:self-stretch'>
+							<div className='hidden z-50 lg:ml-8 lg:block lg:self-stretch flex-[3_1_0%]'>
 								<NavItems />
 							</div>
 
@@ -86,6 +91,7 @@ const Navbar = async () => {
 					</div>
 				</MaxWidthWrapper>
 			</header>
+			
 		</div>
 	);
 };
