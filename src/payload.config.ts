@@ -44,6 +44,7 @@ export default buildConfig({
 			favicon: '/icon.png',
 			ogImage: '/thumbnail.png',
 		},
+	
 		//css: path.resolve(__dirname, 'src/app/payload.css'),
 	},
 	rateLimit: {

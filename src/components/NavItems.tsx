@@ -25,7 +25,7 @@ const NavItems = () => {
 	return (
 		<ul
 			ref={navRef}
-			className='flex gap-4 h-full items-center border-r border-gray-200zz'
+			className='flex gap-4 h-full items-center border-r border-gray-200'
 		>
 			{PRODUCT_CATEGORIES.map((category, i) => {
 				const handleOpen = () => {

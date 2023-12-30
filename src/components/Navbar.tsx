@@ -7,7 +7,6 @@ import MaxWidthWrapper from './MaxWidthWrapper';
 import MobileNav from './MobileNav';
 import NavItems from './NavItems';
 import UserAccountNav from './UserAccountNav';
-import { buttonVariants } from './ui/button';
 
 const Navbar = async () => {
 	const nextCookies = cookies();
@@ -20,7 +19,7 @@ const Navbar = async () => {
 						<div className='flex w-full  items-center justify-center'>
 							{/** TODO mobile Nav */}
 							<MobileNav user={user} />
-							<div className='flex lg:ml-0 ml-1 py-6 pl-6 pr-8 border-r border-gray-200'>
+							<div className='flex lg:ml-0 ml-1 py-6 pl-6 pr-8 lg:border-r lg:border-gray-200'>
 								<Link href='/'>
 									<Image
 										src='/logo.png'
@@ -35,14 +34,12 @@ const Navbar = async () => {
 								<NavItems />
 							</div>
 
-							<div className='ml-auto flex items-center'>
-								<div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
+							<ul className='ml-auto flex items-center'>
+								<li className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
 									{user ? null : (
 										<Link
 											href='/sign-in'
-											className={buttonVariants({
-												variant: 'ghost',
-											})}
+											className='font-medium px-3 text-[1rem] leading-10  text-[#6b6e8a] transition  duration-300 ease'
 										>
 											Sign in
 										</Link>
@@ -57,14 +54,14 @@ const Navbar = async () => {
 										//@ts-ignore
 										<UserAccountNav user={user} />
 									) : (
-										<Link
-											href='/sign-up'
-											className={buttonVariants({
-												variant: 'ghost',
-											})}
-										>
-											Create Account
-										</Link>
+										<li>
+											<Link
+												href='/sign-up'
+												className='font-medium px-3 text-[1rem] leading-10  text-[#6b6e8a] transition  duration-300 ease'
+											>
+												Create Account
+											</Link>
+										</li>
 									)}
 
 									{user ? (
@@ -82,16 +79,15 @@ const Navbar = async () => {
 											></span>
 										</div>
 									)}
-								</div>
+								</li>
 								<div className='ml-4 flow-root lg:ml-6'>
 									<Cart />
 								</div>
-							</div>
+							</ul>
 						</div>
 					</div>
 				</MaxWidthWrapper>
 			</header>
-			
 		</div>
 	);
 };

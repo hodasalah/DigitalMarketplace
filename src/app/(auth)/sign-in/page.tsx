@@ -73,12 +73,13 @@ const SignIn = () => {
 		<div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0'>
 			<div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[500px]'>
 				<div className='flex flex-col items-center space-y-2 text'>
-					<div className='relative h-40 w-[14rem]'>
+					<div className='relative mb-4'>
 						<Image
-							src={'/logo.svg'}
-							fill
+							src={'/logo.png'}
+							height={50}
+							width={165}
 							alt='logo'
-							className='object-cover object-left-bottom'
+							className='object-cover'
 						/>
 					</div>
 					<h1 className='text-2xl font-bold'>
