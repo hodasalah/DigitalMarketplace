@@ -17,3 +17,4 @@
 -   payloadcms
 -   mongodb
 -   express
+-   trpc
