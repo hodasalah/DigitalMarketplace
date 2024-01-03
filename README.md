@@ -18,3 +18,7 @@
 -   mongodb
 -   express
 -   trpc
+
+### Other
+
+- Stripe
